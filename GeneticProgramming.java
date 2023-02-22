@@ -32,6 +32,7 @@
 import java.util.*;
 
 public class GeneticProgramming {
+
   static double actualOutput(double x) {
     return Math.sin(x);
   }
@@ -69,7 +70,7 @@ private static void subtreeMutation(ExpNode node, int maxHeight) {
   }
 }
 
-static void onePointCrossover(ExpNode parent1, ExpNode parent2, int maxHeight) {
+static ExpNode onePointCrossover(ExpNode parent1, ExpNode parent2, int maxHeight) {
   List<ExpNode> nodes1 = new ArrayList<>();
   List<ExpNode> nodes2 = new ArrayList<>();
   collectNodes(parent1, nodes1, maxHeight);
@@ -79,11 +80,20 @@ static void onePointCrossover(ExpNode parent1, ExpNode parent2, int maxHeight) {
       int index2 = (int) (Math.random() * (nodes2.size() - 1)) + 1;
       ExpNode node1 = nodes1.get(index1);
       ExpNode node2 = nodes2.get(index2);
-      ExpNode parent1Copy = parent1.copy();
-      node1.replaceWith(node2);
-      node2.replaceWith(parent1Copy);
+      if (node1 != null && node2 != null) {
+          ExpNode parent1Copy = parent1.copy();
+          if (parent2 != null) {
+              node1.replaceWith(node2);
+              node2.replaceWith(parent1Copy);
+          }
+      }
   }
+  return parent1;
 }
+
+
+
+
 
 static void collectNodes(ExpNode node, List<ExpNode> nodes, int maxHeight) {
   if (node instanceof BinaryOpNode) {
@@ -96,7 +106,7 @@ static void collectNodes(ExpNode node, List<ExpNode> nodes, int maxHeight) {
       }
   } else if (node instanceof UnaryOpNode) {
       UnaryOpNode opNode = (UnaryOpNode) node;
-      if (opNode.child.getHeight() < maxHeight) {
+      if (opNode.child != null && opNode.child.getHeight() < maxHeight) {
           collectNodes(opNode.child, nodes, maxHeight);
       }
   }
@@ -104,13 +114,12 @@ static void collectNodes(ExpNode node, List<ExpNode> nodes, int maxHeight) {
 }
 
 
+
   public static void main(String[] args) {
     
     // Set up the problem
     double[] input = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
-    // double[] output = {0.0, 0.09983341664682815, 0.19866933079506122, 0.2955202066613396, 0.38941834230865113,
-    //                    0.479425538604203, 0.5646424733950354, 0.6442176872376911, 0.7173560908995228,
-    //                    0.7833269096274834, 0.8414709848078965};
+ 
     int populationSize = 100;
     int maxHeight = 3;
     int numGenerations = 50;
@@ -211,7 +220,7 @@ static void collectNodes(ExpNode node, List<ExpNode> nodes, int maxHeight) {
     }
 
     static class ConstNode extends ExpNode {
-      ExpNode child;
+  
       void replaceWith(ExpNode node) {
         child = node;
     }
@@ -233,7 +242,7 @@ static void collectNodes(ExpNode node, List<ExpNode> nodes, int maxHeight) {
     }
 
     static class VariableNode extends ExpNode {
-      ExpNode child;
+      
       void replaceWith(ExpNode node) {
         child = node;
     }
