@@ -1,6 +1,12 @@
 /*
  To do:
-  - Read and understand the concept of the genetic algorithm and how it works.
+  - Concept of the genetic algorithm.
+    - A genetic algorithm is a problem-solving technique that imitates the process of natural selection. 
+    - It starts with a population of potential solutions to a problem, and then selects the fittest ones to "reproduce" and create a new population of solutions.
+    - Each solution is represented as a string of "genes", which are evaluated based on their fitness or how well they solve the problem. 
+    - The fittest solutions are selected to "mate" or combine their genes to create new solutions, which are then evaluated again for their fitness.
+    - This process is repeated over multiple generations, with each generation improving upon the previous one as the fittest solutions are selected and reproduced. 
+    - Eventually, the genetic algorithm converges on the best solution to the problem, which is the one with the highest fitness in the final generation. 
   - Modify your code to implement the genetic algorithm instead of a random search.
   - Choose the initial population of individuals by creating random expressions.
   - Evaluate the fitness of each individual in the population by comparing their output to a set of sample data.
